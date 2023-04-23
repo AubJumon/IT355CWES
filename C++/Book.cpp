@@ -1,6 +1,6 @@
 #include "Book.h"
 
-int Book::getIsbn()
+int Book::getISBN()
 {
     return ISBN;
 }

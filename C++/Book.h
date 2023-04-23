@@ -25,6 +25,6 @@ public:
     string getShortDesc();
     string getPublisher();
     string getBinding();
-    int getIsbn();
+    int getISBN();
 };
 #endif
