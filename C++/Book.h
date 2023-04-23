@@ -17,4 +17,10 @@ private:
     string binding; // hardcover or paperback
 
 public:
+    string getTitle();
+    string getAuthor();
+    string getGenre();
+    string getShortDesc();
+    string getPublisher();
+    string getBinding();
 };
