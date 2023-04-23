@@ -10,6 +10,7 @@ class Copy
 {
 private:
     int copyID;
+    int ISBN;
     bool availability;
     string lastUser;
     time_t dateCheckedOut;
@@ -17,6 +18,7 @@ private:
 
 public:
     int getID();
+    int getIsbn();
 
     bool getAvailability();
 

@@ -2,10 +2,18 @@
  * Library app demonstrating CWE's of the C++ language.
  * @author Austen Tankersley and Braydon Hughes
  */
-
 #include <iostream>
+#include <vector>
+#include <string.h>
+#include "User.h"
+#include "Book.h"
 
 using namespace std;
+
+vector<User> users;
+
+void addUser();
+void viewUser(int);
 
 void print_menu()
 {
@@ -21,36 +29,35 @@ void print_menu()
 
 int main()
 {
-    // CWE-457: Use of Uninitialized Variable
     int choice = 0;
 
     while (choice != 6)
     {
+        int uid_int = 0;
+        signed char uid = 0;
         print_menu();
         cout << "Enter choice: ";
         cin >> choice;
-
         switch (choice)
         {
         case 1:
-            add_book();
+            // addBook();
             break;
         case 2:
-            add_user();
+            addUser();
             break;
         case 3:
-            borrow_book();
+            // borrowBook();
             break;
         case 4:
-            return_book();
+            // returnBook();
             break;
         case 5:
-            signed char uid = 0;
             cout << "Enter User ID: ";
             cin >> uid;
-            //CWE-194: Unexpected Sign Extension
-            int uid_int = static_cast<int>(uid);
-            view_user(uid_int);
+            // CWE-194: Unexpected Sign Extension
+            uid_int = static_cast<int>(uid);
+            viewUser(uid_int);
             break;
         case 6:
             cout << "Exiting program." << endl;
@@ -65,16 +72,17 @@ int main()
     return 0;
 }
 
-void add_user() {
-    int id;
+void addUser()
+{
+    static int next_id = 1;
     string name;
     cout << "Enter user name: ";
     getline(cin, name);
-
-    User user(id, name);
+    User user(next_id++, name);
     users.push_back(user);
-
     cout << "User added to system." << endl;
 }
 
-
+void viewUser(int uid)
+{
+}
