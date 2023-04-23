@@ -14,9 +14,9 @@ void addBook();
 
 void addUser();
 
-void borrowBook();
+void checkoutCopy();
 
-void returnBook();
+void returnCopy();
 
 void printBooks();
 
@@ -35,6 +35,7 @@ void collectionActionPrompt()
     /**
      * CWE-192: Integer coercion error. We do not coerce integers to another type in this program which avoids the common weakness.
      * If we had done int choice = a, that would have violated the CWE.
+     * This also applies for CWE-704, Incorrect type conversion or cast.
      * */
     int choice = 0;
     while (choice != 7)
@@ -62,10 +63,10 @@ void collectionActionPrompt()
             addUser();
             break;
         case 3:
-            borrowBook();
+            checkoutCopy();
             break;
         case 4:
-            returnBook();
+            returnCopy();
             break;
         case 5:
             printBooks();
@@ -93,11 +94,11 @@ void addUser()
 {
 }
 
-void borrowBook()
+void checkoutCopy()
 {
 }
 
-void returnBook()
+void returnCopy()
 {
 }
 
