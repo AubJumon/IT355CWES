@@ -3,33 +3,24 @@
  * @author Austen Tankersley and Braydon Hughes
  */
 
-class User
+#include "User.h"
+
+int User::getId() const
 {
-public:
-    User(int id, const string &name) : id(id), name(name) {}
+    return id;
+}
 
-    int get_id() const
-    {
-        return id;
-    }
+const string User::getName() const
+{
+    return name;
+}
 
-    const string &get_name() const
-    {
-        return name;
-    }
+const vector<Copy *> User::getCheckedOutCopies() const
+{
+    return checkedOutCopies;
+}
 
-    const vector<Book *> &get_checked_out_books() const
-    {
-        return checked_out_books;
-    }
-
-    void check_out_book(Book *book)
-    {
-        checked_out_books.push_back(book);
-    }
-
-private:
-    int id;
-    string name;
-    vector<Book *> checked_out_books;
-};
+void User::checkOutCopy(Copy *copy)
+{
+    checkedOutCopies.push_back(copy);
+}

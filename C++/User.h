@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "Book.h"
+#include "Copy.h"
 
 using namespace std;
 
@@ -16,14 +17,14 @@ class User
 private:
     int id;
     string name;
-    vector<Book *> checked_out_books;
+    vector<Copy *> checkedOutCopies;
 
 public:
-    User(unsigned char id, const string &name);
-    unsigned char get_id() const;
-    const string &get_name() const;
-    const vector<Book *> &get_checked_out_books() const;
-    void check_out_book(Book *book);
+    User(int id, string name) : id(id), name(name) {}
+    int getId() const;
+    const string getName() const;
+    const vector<Copy *> getCheckedOutCopies() const;
+    void checkOutCopy(Copy *copy);
 };
 
 #endif
