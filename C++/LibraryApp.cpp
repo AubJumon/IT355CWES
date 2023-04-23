@@ -3,32 +3,54 @@
  * @author Austen Tankersley and Braydon Hughes
  */
 
-#include "lib/rapidjson/document.h"
-#include "lib/rapidjson/writer.h"
-#include "lib/rapidjson/stringbuffer.h"
+#include "lib/nlohmann/json.hpp"
 #include <iostream>
 
 using namespace std;
 
-void print_menu()
-{
-    cout << endl;
-    cout << "1. Add book to library" << endl;
-    cout << "2. Add user to system" << endl;
-    cout << "3. Borrow book" << endl;
-    cout << "4. Return book" << endl;
-    cout << "5. Exit" << endl;
-    cout << endl;
-}
+void collectionActionPrompt();
+
+void addBook();
+
+void addUser();
+
+void borrowBook();
+
+void returnBook();
+
+void printBooks();
+
+void printCopies();
 
 int main()
 {
-    int choice = 0;
 
-    while (choice != 5)
+    collectionActionPrompt();
+
+    return 0;
+}
+
+void collectionActionPrompt()
+{
+    /**
+     * CWE-192: Integer coercion error. We do not coerce integers to another type in this program which avoids the common weakness.
+     * If we had done int choice = a, that would have violated the CWE.
+     * */
+    int choice = 0;
+    while (choice != 7)
     {
-        print_menu();
+        cout << endl;
+        cout << "1. Add book to library" << endl;
+        cout << "2. Add user to system" << endl;
+        cout << "3. Borrow book" << endl;
+        cout << "4. Return book" << endl;
+        cout << "5. View copies" << endl;
+        cout << "6. View books" << endl;
+        cout << "7. Exit" << endl;
+        cout << endl;
         cout << "Enter choice: ";
+
+        // CWE-242 Use of inherently dangerous function: We do not use strcpy() to copy a string because it is vulnerable to buffer overflows.
         cin >> choice;
 
         switch (choice)
@@ -46,6 +68,12 @@ int main()
             returnBook();
             break;
         case 5:
+            printBooks();
+            break;
+        case 6:
+            printCopies();
+            break;
+        case 7:
             cout << "Exiting program." << endl;
             break;
         default:
@@ -54,12 +82,11 @@ int main()
             break;
         }
     }
-
-    return 0;
 }
 
 void addBook()
 {
+    return;
 }
 
 void addUser()
@@ -71,5 +98,13 @@ void borrowBook()
 }
 
 void returnBook()
+{
+}
+
+void printBooks()
+{
+}
+
+void printCopies()
 {
 }
