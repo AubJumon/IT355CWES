@@ -1,0 +1,44 @@
+{
+    "books": [
+        {
+            "isbn": "9781984898951",
+            "author": "Michelle Zauner",
+            "title": "Crying in H Mart: A Memoir",
+            "genre": "Autobiography",
+            "shortDesc": "A memoir by Michelle Zauner, singer and guitarist of the musical project Japanese Breakfast.",
+            "publishedYear": 2023,
+            "publisher": "Vintage",
+            "binding": "Paperback"
+        },
+        {
+            "isbn": "9780060850524",
+            "author": "Harper Lee",
+            "title": "To Kill a Mockingbird",
+            "genre": "Fiction",
+            "shortDesc": "A classic novel set in the American South",
+            "publishedYear": 1960,
+            "publisher": "J. B. Lippincott & Co.",
+            "binding": "Paperback"
+        },
+        {
+            "isbn": "9780441172719",
+            "author": "Frank Herbert",
+            "title": "Dune",
+            "genre": "Science Fiction",
+            "shortDesc": "A sweeping epic set on a desert planet",
+            "publishedYear": 1965,
+            "publisher": "Chilton Books",
+            "binding": "Hardcover"
+        },
+        {
+            "isbn": "9780596006624",
+            "author": "Douglas Crockford",
+            "title": "JavaScript: The Good Parts",
+            "genre": "Programming",
+            "shortDesc": "A concise guide to the best parts of JavaScript",
+            "publishedYear": 2008,
+            "publisher": "O'Reilly Media",
+            "binding": "Paperback"
+        }
+    ]
+}

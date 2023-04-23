@@ -12,6 +12,9 @@ private:
     string author;
     string genre;
     string shortDesc;
+    string publishedYear;
+    string publisher;
+    string binding // hardcover or paperback
 
-public:
+        public:
 };
