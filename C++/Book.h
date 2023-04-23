@@ -2,6 +2,8 @@
  * Class representing a book in the colleciton.
  * @author Austen Tankersley & Braydon Hughes.
  */
+#ifndef BOOK_H
+#define BOOK_H
 #include <string>
 using namespace std;
 class Book
@@ -23,4 +25,6 @@ public:
     string getShortDesc();
     string getPublisher();
     string getBinding();
+    int getIsbn();
 };
+#endif
