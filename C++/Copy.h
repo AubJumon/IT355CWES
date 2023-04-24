@@ -3,30 +3,28 @@
  * @author Austen Tankersley & Braydon Hughes.
  */
 #include <string>
-#include <chrono>
 using namespace std;
 
 class Copy
 {
 private:
     int copyID;
-    int ISBN;
+    long long ISBN;
     bool availability;
-    string lastUser;
-    time_t dateCheckedOut;
-    time_t dateCheckedIn;
+    int lastUserID;
 
 public:
+    Copy(int copyID, long long ISBN, bool availability, int lastUserID) : copyID(copyID), ISBN(ISBN), availability(availability) {}
     int getID();
-    int getIsbn();
+    long long getISBN();
 
     bool getAvailability();
 
+    void setAvailability(bool avail);
+    void setLastUserID(int id);
+
     void checkOut();
 
-    string getLastUser();
-
-    time_t getDateCheckedOut();
-
-    time_t getDateCheckedIn();
+    int getLastUserID();
+    string toString();
 };

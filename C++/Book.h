@@ -9,22 +9,24 @@ using namespace std;
 class Book
 {
 private:
-    int ISBN;
+    long long ISBN;
     string title;
     string author;
     string genre;
     string shortDesc;
-    string publishedYear;
+    int publishedYear;
     string publisher;
     string binding; // hardcover or paperback
 
 public:
+    Book(long long ISBN, string title, string author, string genre, string shortDesc, int publishedYear, string publisher, string binding);
     string getTitle();
     string getAuthor();
     string getGenre();
     string getShortDesc();
     string getPublisher();
     string getBinding();
-    int getISBN();
+    long long getISBN();
+    string toString();
 };
 #endif

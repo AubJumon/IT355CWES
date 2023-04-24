@@ -1,6 +1,23 @@
+/**
+ * Implementation of a class representing a book.
+ * @author Austen Tankersley & Braydon Hughes
+ */
+
 #include "Book.h"
 
-int Book::getISBN()
+Book::Book(long long ISBN, string title, string author, string genre, string shortDesc, int publishedYear, string publisher, string binding)
+{
+    this->ISBN = ISBN;
+    this->title = title;
+    this->author = author;
+    this->genre = genre;
+    this->shortDesc = shortDesc;
+    this->publishedYear = publishedYear;
+    this->publisher = publisher;
+    this->binding = binding;
+}
+
+long long Book::getISBN()
 {
     return ISBN;
 }
@@ -33,4 +50,9 @@ string Book::getPublisher()
 string Book::getBinding()
 {
     return binding;
+}
+
+string Book::toString()
+{
+    return "\nISBN: " + to_string(ISBN) + "\nTitle: " + title + "\nAuthor: " + author + "\nGenre: " + genre + "\nShort Description: " + shortDesc + "\nPublished Year: " + to_string(publishedYear) + "\nPublisher: " + publisher + "\nBinding: " + binding + "\n";
 }

@@ -1,9 +1,39 @@
 {
+    "collectionID": 123,
+    "name": "My Collection",
+    "users": [
+        {
+            "id": 1,
+            "name": "Braydon Hughes",
+            "checkedOutCopies": [
+                2
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Ally Dauck",
+            "checkedOutCopies": []
+        }
+    ],
+    "copies": [
+        {
+            "copyID": 1,
+            "ISBN": 9781984898951,
+            "availability": true,
+            "lastUserID": -1
+        },
+        {
+            "copyID": 2,
+            "ISBN": 9780441172719,
+            "availability": false,
+            "lastUserID": 1
+        }
+    ],
     "books": [
         {
-            "isbn": "9781984898951",
-            "author": "Michelle Zauner",
+            "ISBN": 9781984898951,
             "title": "Crying in H Mart: A Memoir",
+            "author": "Michelle Zauner",
             "genre": "Autobiography",
             "shortDesc": "A memoir by Michelle Zauner, singer and guitarist of the musical project Japanese Breakfast.",
             "publishedYear": 2023,
@@ -11,19 +41,19 @@
             "binding": "Paperback"
         },
         {
-            "isbn": "9780060850524",
-            "author": "Harper Lee",
-            "title": "To Kill a Mockingbird",
-            "genre": "Fiction",
-            "shortDesc": "A classic novel set in the American South",
-            "publishedYear": 1960,
-            "publisher": "J. B. Lippincott & Co.",
+            "ISBN": 9780307743664,
+            "title": "Carrie",
+            "author": "Stephen King",
+            "genre": "Horror",
+            "shortDesc": "A novel about a teenage girl with telekinetic powers",
+            "publishedYear": 1974,
+            "publisher": "Anchor",
             "binding": "Paperback"
         },
         {
-            "isbn": "9780441172719",
-            "author": "Frank Herbert",
+            "ISBN": 9780441172719,
             "title": "Dune",
+            "author": "Frank Herbert",
             "genre": "Science Fiction",
             "shortDesc": "A sweeping epic set on a desert planet",
             "publishedYear": 1965,
@@ -31,13 +61,13 @@
             "binding": "Hardcover"
         },
         {
-            "isbn": "9780596006624",
-            "author": "Douglas Crockford",
-            "title": "JavaScript: The Good Parts",
-            "genre": "Programming",
-            "shortDesc": "A concise guide to the best parts of JavaScript",
-            "publishedYear": 2008,
-            "publisher": "O'Reilly Media",
+            "ISBN": 9780521618748,
+            "title": "Macbeth",
+            "author": "William Shakespeare",
+            "genre": "Tragedy",
+            "shortDesc": "A play about ambition, power, and betrayal",
+            "publishedYear": 1606,
+            "publisher": "Cambridge University Press",
             "binding": "Paperback"
         }
     ]

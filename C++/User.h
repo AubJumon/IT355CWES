@@ -7,8 +7,8 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "Book.h"
-#include "Copy.h"
 
 using namespace std;
 
@@ -17,14 +17,16 @@ class User
 private:
     int id;
     string name;
-    vector<Copy *> checkedOutCopies;
+    vector<int> checkedOutCopies;
 
 public:
     User(int id, string name) : id(id), name(name) {}
+    User(int id, string name, vector<int> checkedOutCopies) : id(id), name(name), checkedOutCopies(checkedOutCopies) {}
     int getId() const;
     const string getName() const;
-    const vector<Copy *> getCheckedOutCopies() const;
-    void checkOutCopy(Copy *copy);
+    vector<int> *getCheckedOutCopies();
+    void checkOutCopy(int cid);
+    void returnCopy(int cid);
 };
 
 #endif
