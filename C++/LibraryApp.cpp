@@ -28,8 +28,12 @@ void printUser(Collection *library);
 void addCopy(Collection *library);
 void printAllUsers(Collection *library);
 
+// use to validate input, returns valid string depending on regex and prints error message
 string validateInput(regex reg, string errorMessage);
-regex strReg(); // didnt want to make a global variable so it's a function
+// use to validate integer IDs. Returns a valid ID and prompts for user input using idReg and validateInput functions.
+int validateID();
+// regex for strings, ensures they are under 255 characters.
+regex strReg();
 
 int main()
 {
@@ -207,12 +211,13 @@ void addUser(Collection *library)
 
 void printUser(Collection *library)
 {
-    // BRAYDON: I think something here broke the code
     signed char uid;
     int uid_int;
     cout << "Enter User ID: ";
     cin >> uid;
+    cout << "(DEBUG) uid_int: " << to_string(uid_int) << endl;
     cin.ignore();
+
     // CWE-194: Unexpected Sign Extension - user ID is casted to integer from signed character to prevent potential issues with comparison later on.
     uid_int = static_cast<int>(uid);
     User *printed = library->getUser(uid_int);
@@ -249,20 +254,18 @@ void checkoutCopy(Collection *library)
 {
     int cid;
     int uid;
-    cout << "Enter Copy ID: " << endl;
-    cid = stoi(validateInput(regex("^(?!0)([1-9]\\d{0,8}|999999999)$"), "Invalid input. ID must be between 1 and 999999999."));
+    cout << "Enter Copy ID: ";
+    cid = validateID();
     Copy *checked = library->getCopy(cid);
-    if (!checked->getAvailability() || checked == nullptr)
+    if (!checked->getAvailability() || checked == nullptr) // avoid nullptr use
     {
         cout << "Cannot be checked out right now." << endl;
         return;
     }
-    cout << "Enter User ID to check out: " << endl;
-    uid = stoi(validateInput(regex("^(?!0)([1-9]\\d{0,8}|999999999)$"), "Invalid input. ID must be between 1 and 999999999."));
-    User *used = library->getUser(uid);
-    used->checkOutCopy(cid);
-    checked->setAvailability(false);
-    cout << "Checked out successfully." << endl;
+    cout << "Enter User ID to check out: ";
+    uid = validateID();
+    library->checkOutCopy(cid, uid);
+    cout << library->getUser(uid)->getName() << " checked out " << library->getCopyTitle(cid) << " successfully." << endl;
     return;
 }
 
@@ -322,6 +325,10 @@ regex strReg()
     return regex("^.{1,255}$");
 }
 
+int validateID()
+{
+    return stoi(validateInput(regex("^[1-9]\\d{0,5}$"), "Invalid input. ID must be between 1 and 999999."));
+}
 void printAllUsers(Collection *library)
 {
     cout << endl;

@@ -177,3 +177,12 @@ int Collection::getMaxUserID()
 {
     return users.back().getId();
 }
+
+void Collection::checkOutCopy(int copyID, int userID)
+{
+    Copy *copy = getCopy(copyID);
+    User *user = getUser(userID);
+    copy->setLastUserID(userID);
+    copy->setAvailability(false);
+    user->checkOutCopy(copyID);
+}

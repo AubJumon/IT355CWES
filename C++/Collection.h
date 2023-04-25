@@ -53,5 +53,6 @@ public:
     string getCopyTitle(int copyID);
     int getAvailableCopiesCount();
     int getMaxUserID();
+    void checkOutCopy(int copyID, int userID);
 };
 #endif

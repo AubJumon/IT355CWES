@@ -23,8 +23,6 @@ public:
     void setAvailability(bool avail);
     void setLastUserID(int id);
 
-    void checkOut();
-
     int getLastUserID();
     string toString();
 };
