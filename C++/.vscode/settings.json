@@ -8,6 +8,9 @@
         "chrono": "cpp",
         "string": "cpp",
         "fstream": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "regex": "cpp",
+        "sstream": "cpp",
+        "locale": "cpp"
     }
 }

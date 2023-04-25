@@ -8,7 +8,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string.h>
+#include <string>
+#include <regex>
 #include <filesystem>
 #include <algorithm>
 #include "Collection.h"
@@ -25,10 +26,16 @@ void printBooks(Collection *library);
 void printCopies(Collection *library);
 void printUser(Collection *library);
 void addCopy(Collection *library);
+void printAllUsers(Collection *library);
+
+string validateInput(regex reg, string errorMessage);
+regex strReg(); // didnt want to make a global variable so it's a function
 
 int main()
 {
+
     string choice;
+    char choiceChar;
     string collectionName;
     string collectionFileName;
     int nextCollectionID = 0;
@@ -37,44 +44,39 @@ int main()
     cout << "Welcome to the library!" << endl;
     cout << "Read collection from a file? (y/n)" << endl;
     // CWE-125: Out-of-bounds Read - choice only accepted when a value is entered, does not accept empty string.
-    while (choice.empty() || choice.substr(0, 1) != "y" && choice.substr(0, 1) != "n")
+    choice = validateInput(regex("^(yes|no|y|n)$"), "Invalid input. Please enter yes, no, y, or n.");
+    choiceChar = tolower(choice.at(0));
+    if (choiceChar == 'y')
     {
+        cout << "Enter the filename:" << endl;
         cout << "> ";
-        cin >> choice;
-        cin.ignore();
-        if (choice.substr(0, 1) == "y")
+        collectionFileName = validateInput(strReg(), "Invalid input. Collection file name must be 255 characters or less.");
+        while (!fs::exists(collectionFileName))
         {
-            cout << "Enter the filename:" << endl;
+            cout << "That file doesn't exist. Please try again or enter -1 to exit." << endl;
             cout << "> ";
-            // CWE-676: Use of Potentially Dangerous Function - cin is a potentially dangerous function; using getLine() helps prevent buffer overflow
-            getline(cin, collectionFileName);
-            while (!fs::exists(collectionFileName))
+            collectionFileName = validateInput(strReg(), "Invalid input. Collection file name must be 255 characters or less.");
+            // CWE-482: Comparing Instead of Assigning - string is matched for equality instead of altering value
+            if (collectionFileName == "-1")
             {
-                cout << "That file doesn't exist. Please try again or enter -1 to exit." << endl;
-                cout << "> ";
-                getline(cin, collectionFileName);
-                // CWE-482: Comparing Instead of Assigning - string is matched for equality instead of altering value
-                if (collectionFileName == "-1")
-                {
-                    cout << "Goodbye." << endl;
-                    exit(0);
-                }
+                cout << "Goodbye." << endl;
+                exit(0);
             }
-
-            library = new Collection(collectionFileName);
-            cout << "AFTER COLLECTION CREATED" << endl;
-        }
-        else if (choice.substr(0, 1) == "n")
-        {
-            cout << "Input the name of the collection." << endl;
-            cout << "> ";
-            cin >> collectionName;
-            library = new Collection(nextCollectionID, collectionName);
-            nextCollectionID++;
         }
 
-        cout << "Collection " + library->getName() + " created successfully." << endl;
+        library = new Collection(collectionFileName);
+        cout << "AFTER COLLECTION CREATED" << endl;
     }
+    else if (choiceChar == 'n')
+    {
+        cout << "Input the name of the collection." << endl;
+        cout << "> ";
+        collectionName = validateInput(strReg(), "Invalid input Collection name must be 255 or less characters.");
+        library = new Collection(nextCollectionID, collectionName);
+        nextCollectionID++;
+    }
+
+    cout << "Collection " + library->getName() + " created successfully." << endl;
 
     collectionActionPrompt(library);
 
@@ -89,7 +91,8 @@ void collectionActionPrompt(Collection *library)
      * This also applies for CWE-704, Incorrect type conversion or cast.
      * */
     int choice = 0;
-    while (choice != 9)
+    const int exitChoice = 10;
+    while (choice != exitChoice)
     {
         cout << endl;
         cout << "1. Add book to system" << endl;
@@ -97,15 +100,16 @@ void collectionActionPrompt(Collection *library)
         cout << "3. Add user to system" << endl;
         cout << "4. Check out copy" << endl;
         cout << "5. Return copy" << endl;
-        cout << "6. View available copies of a book" << endl; // we can move this to view books
+        cout << "6. View copies" << endl;
         cout << "7. View books" << endl;
         cout << "8. View user" << endl;
-        cout << "9. Exit" << endl;
+        cout << "9. View all users" << endl;
+        cout << "10. Exit" << endl;
         cout << endl;
         cout << "Enter choice: ";
 
-        // CWE-242 Use of inherently dangerous function: We do not use strcpy() to copy a string because it is vulnerable to buffer overflows.
         cin >> choice;
+        cin.ignore();
 
         switch (choice)
         {
@@ -114,6 +118,7 @@ void collectionActionPrompt(Collection *library)
             break;
         case 2:
             addCopy(library);
+            break;
         case 3:
             addUser(library);
             break;
@@ -133,6 +138,9 @@ void collectionActionPrompt(Collection *library)
             printUser(library);
             break;
         case 9:
+            printAllUsers(library);
+            break;
+        case exitChoice:
             cout << "Exiting program." << endl;
             break;
         default:
@@ -145,60 +153,53 @@ void collectionActionPrompt(Collection *library)
 
 void addBook(Collection *library)
 {
+    const int STRING_BUFFER_SIZE = 256;
     long long isbn;
     int publishedYear;
     string title, author, genre, shortDesc, publisher, binding;
+    const char *titleBuf = new char[STRING_BUFFER_SIZE];
 
     // Get book information from user
     cout << "Enter ISBN: ";
-    cin >> isbn;
-    cin.ignore();
     // CWE-787: Out-of-bounds Write - ISBN should only ever be 13 digits, length checking prevents writing value beyond allotted long long length.
-    // CWE-120: Buffer copy without checking size of Input (Classic Buffer Overflow) Checks if the input is legnth 13 ensuring an overflowed integer doesn't get used.
-    // CWE-126: Buffer Over-read
-    string isbn_str = to_string(isbn); // Convert to string for easier manipulation
-    if (isbn_str.length() != 13 && isbn_str.substr(0, 3) != "978")
-    {
-        cout << "Invalid ISBN Entered. Adding book failed." << endl;
-        return;
-    }
+    isbn = stoll(validateInput(regex("^978\\d{10}$"), "Invalid input. ISBN must begin with 978 and be 13 digits long."));
+
     cout << "Enter title: ";
-    getline(cin, title);
+    // CWE-120: Buffer copy without checking size of Input (Classic Buffer Overflow).
+    // we make sure that the input is 255 characters or less so that the 256-length buffer is not overflowed. :)
+    // CWE-242 Use of inherently dangerous function: We do not use strcpy() to copy a string because it is vulnerable to buffer overflows.
+    titleBuf = validateInput(strReg(), "Invalid input. Title must be 255 or less characters.").c_str();
 
     cout << "Enter author: ";
-    getline(cin, author);
+    author = validateInput(strReg(), "Invalid input. Author must be 255 or less characters.");
 
     cout << "Enter genre: ";
-    getline(cin, genre);
+    genre = validateInput(strReg(), "Invalid input. Genre must be 255 or less characters.");
 
     cout << "Enter short description: ";
-    getline(cin, shortDesc);
+    shortDesc = validateInput(strReg(), "Invalid input. Short desc must be 255 or less characters.");
 
     cout << "Enter published year: ";
-    cin >> publishedYear;
     // CWE-839: Numeric range comparison without minimum check
-    if (publishedYear < 1600 || publishedYear > 2023 || cin.fail())
-    {
-        cout << "Invalid published year. Please enter a year greater than 1600 and less than 2023." << endl;
-        return;
-    }
-    cin.ignore();
+    publishedYear = stoi(validateInput(regex("^-?[0-9]{1,4}$"), "Invalid input. Year must be between -9999 and 9999."));
 
     cout << "Enter publisher: ";
-    getline(cin, publisher);
+    publisher = validateInput(strReg(), "Invalid input. Publisher must be 255 or less characters.");
 
-    cout << "Enter binding (hardcover or paperback): ";
-    getline(cin, binding);
+    cout << "Enter binding (Hardcover, Paperback, or Other.): ";
+    binding = validateInput(regex("^(Hardcover|Paperback|Other|hardcover|paperback|other)$"), "Invalid input. Please enter hardcover, paperback, or other.");
+    binding[0] = toupper(binding[0]); // capitalize
     library->addBook(isbn, title, author, genre, shortDesc, publishedYear, publisher, binding);
     return;
 }
 
 void addUser(Collection *library)
 {
-    static int uid = 1;
+    static int uid = library->getMaxUserID() + 1;
+    cout << "(DEBUG) max user ID " << library->getMaxUserID() << endl;
     string name;
     cout << "Enter name: ";
-    getline(cin, name);
+    name = validateInput(regex("^.{0,55}$"), "Invalid input. Name must be 55 or less characters.");
     library->addUser(uid, name);
     uid++;
     return;
@@ -206,6 +207,7 @@ void addUser(Collection *library)
 
 void printUser(Collection *library)
 {
+    // BRAYDON: I think something here broke the code
     signed char uid;
     int uid_int;
     cout << "Enter User ID: ";
@@ -236,7 +238,7 @@ void printUser(Collection *library)
     for (int i = 0; i < copies->size(); i++)
     {
         cid = (*copies)[i];
-        bName = library->getBook(library->getCopy(cid)->getISBN())->getTitle();
+        bName = library->getCopyTitle(cid);
         cout << "Checked out Books:\n"
              << "Copy ID: " << cid << " Title: " << bName + "\n";
     }
@@ -245,17 +247,18 @@ void printUser(Collection *library)
 
 void checkoutCopy(Collection *library)
 {
-    cout << "Enter Copy ID: " << endl;
     int cid;
-    cin >> cid;
+    int uid;
+    cout << "Enter Copy ID: " << endl;
+    cid = stoi(validateInput(regex("^(?!0)([1-9]\\d{0,8}|999999999)$"), "Invalid input. ID must be between 1 and 999999999."));
     Copy *checked = library->getCopy(cid);
-    if (!checked->getAvailability())
+    if (!checked->getAvailability() || checked == nullptr)
     {
         cout << "Cannot be checked out right now." << endl;
         return;
     }
     cout << "Enter User ID to check out: " << endl;
-    int uid;
+    uid = stoi(validateInput(regex("^(?!0)([1-9]\\d{0,8}|999999999)$"), "Invalid input. ID must be between 1 and 999999999."));
     User *used = library->getUser(uid);
     used->checkOutCopy(cid);
     checked->setAvailability(false);
@@ -291,11 +294,37 @@ void printBooks(Collection *library)
 void printCopies(Collection *library)
 {
     cout << endl;
-    cout << "Available copies: "
-         << to_string(library->getAvailableCopiesCount());
+    cout << library->getCopiesString();
     return;
 }
 
 void addCopy(Collection *library)
 {
+}
+
+string validateInput(regex reg, string errorMessage)
+{
+    string input;
+    // CWE-676: Use of Potentially Dangerous Function - cin is a potentially dangerous function; using getLine() helps prevent buffer overflow
+    getline(cin, input);
+    while (!regex_match(input, reg))
+    {
+        cout << errorMessage;
+        cout << " Please try again." << endl;
+        cout << "> ";
+        getline(cin, input);
+    }
+    return input;
+}
+
+regex strReg()
+{
+    return regex("^.{1,255}$");
+}
+
+void printAllUsers(Collection *library)
+{
+    cout << endl;
+    cout << library->getBasicUsersString();
+    return;
 }
