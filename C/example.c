@@ -7,15 +7,20 @@
 
 #include <stdio.h>
 #include <string.h> // Include the string.h header for strlen()
+#include <stdlib.h>
 
-void functionWith1Argment(char a){
+void functionWith1Argument(char a){
     printf("You have selected task %c", a);
 }
+int promptValue();
+int factorial(int value);
+int power(int digit, int exponent);
 
 int main() {
-    char input[10]; // Declare a character array with a size limit of 10 characters to prevent buffer overflow
+    char *input = (char*) malloc(sizeof(char) * 10);
+    //char input[10]; // Declare a character array with a size limit of 10 characters to prevent buffer overflow
     // CWE-457: Use of Uninitialized Variables 
-    printf("Enter a character to determine which task to perform: ");
+    printf("Enter a character to determine which task to perform [a, b, c]: ");
     if (fgets(input, sizeof(input), stdin) == NULL) {
         /*
         In this section of code, the sizeof operator is being used on an array (input) 
@@ -76,7 +81,7 @@ int main() {
                 //divide 2 numbers
                 int a = 3;
                 int b = 7;
-                printf("%d / %d = %f", a, b, (double)a/b );
+                printf("%d / %d = %f\n", a, b, (double)a/b );
                 /*
                     CWE-480: Use of Incorrect Operator
                     CWE-704: Incorrect Type Conversion or Cast 
@@ -90,19 +95,30 @@ int main() {
                 
             break;// CWE-484: Omitted Break Statement in Switch 
         case 'b':
-            printf("Performing Task B\n");
+            printf("\nPerforming Task B\n");
             // Code to perform Task B goes here
+            int value = promptValue();
+            int fac = factorial(value);
+            printf("%d! = %d\n", value, fac);
             break;// CWE-484: Omitted Break Statement in Switch 
         case 'c':
-            printf("Performing Task C\n");
+            printf("\nPerforming Task C\n");
             // Code to perform Task C goes here
+            int digit = promptValue();
+            printf("One more time.\n");
+            int exponent = promptValue();
+            int result = power(digit, exponent);
+            printf("%d^%d = %d\n", digit, exponent, result);
+
             break;// CWE-484: Omitted Break Statement in Switch 
         default:
             printf("Invalid input\n");
             return 1;
     }
 
+    //You don't have to free [] arrays
     free(input);//
+    
     /*
     by placing free after all uses the below CWEs can be prevented
     */
@@ -111,4 +127,49 @@ int main() {
     // CWE-416: Use After Free 
 
     return 0;
+}
+
+int promptValue()
+{
+    printf("Enter a number between 1 - 10: ");
+    int size = 200;
+    char* valueStr = (char*) malloc(sizeof(char) * size);
+    if (fgets(valueStr, size, stdin) == NULL)
+    {
+        fprintf(stderr, "Value could not be read.\n");
+        return 1;
+    }
+    valueStr[strcspn(valueStr, "\n")] = '\0';
+    int value = atoi(valueStr);
+    if (value < 1 || value > 10)
+    {
+        fprintf(stderr, "Invalid value input\n");
+        return 1;
+    }
+    free(valueStr);
+    return value;
+}
+
+int factorial(int value)
+{
+    if (value == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return value * factorial(value - 1);
+    }
+}
+
+int power(int digit, int exponent)
+{
+    if (exponent == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return digit * power(digit, exponent - 1);
+    }
 }
