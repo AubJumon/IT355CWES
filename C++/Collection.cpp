@@ -28,13 +28,11 @@ Collection::Collection(string filename)
     {
         this->copies.push_back(Copy(copy["copyID"], copy["ISBN"], copy["availability"], copy["lastUserID"]));
     }
-    cout << "EEE" << endl;
 
     for (const auto &book : jsonFile["books"])
     {
         this->books.push_back(Book(book["ISBN"], book["title"], book["author"], book["genre"], book["shortDesc"], book["publishedYear"], book["publisher"], book["binding"]));
     }
-    cout << "EEE" << endl;
 }
 
 void Collection::addBook(long long ISBN, string title, string author, string genre, string shortDesc, int publishedYear, string publisher, string binding)
