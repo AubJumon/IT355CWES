@@ -92,13 +92,15 @@ void collectionActionPrompt(Collection *library)
     /**
      * CWE-192: Integer coercion error. We do not coerce integers to another type in this program which avoids the common weakness.
      * If we had done int choice = a, that would have violated the CWE.
+     * We use a regex-validated string for the choice variable instead of an integer to avoid this issue.
      * This also applies for CWE-704, Incorrect type conversion or cast.
      * */
+
     int choice = 0;
     const int exitChoice = 10;
     while (choice != exitChoice)
     {
-        cout << endl;
+        std::cout << endl;
         cout << "1. Add book to system" << endl;
         cout << "2. Add copy to collection" << endl;
         cout << "3. Add user to system" << endl;
@@ -112,8 +114,7 @@ void collectionActionPrompt(Collection *library)
         cout << endl;
         cout << "Enter choice: ";
 
-        cin >> choice;
-        cin.ignore();
+        choice = stoi(validateInput(regex("^\\d+"), "Not an integer."));
 
         switch (choice)
         {
