@@ -28,13 +28,11 @@ Collection::Collection(string filename)
     {
         this->copies.push_back(Copy(copy["copyID"], copy["ISBN"], copy["availability"], copy["lastUserID"]));
     }
-    cout << "EEE" << endl;
 
     for (const auto &book : jsonFile["books"])
     {
         this->books.push_back(Book(book["ISBN"], book["title"], book["author"], book["genre"], book["shortDesc"], book["publishedYear"], book["publisher"], book["binding"]));
     }
-    cout << "EEE" << endl;
 }
 
 void Collection::addBook(long long ISBN, string title, string author, string genre, string shortDesc, int publishedYear, string publisher, string binding)
@@ -58,12 +56,12 @@ User *Collection::getUser(int id)
     {
         if (user.getId() == id)
         {
-            // Found the user
+            // Found the user.
             userPtr = &user;
         }
     }
 
-    return userPtr; // if not found return a null user
+    return userPtr;
 }
 
 Book *Collection::getBook(long long id)
@@ -125,4 +123,66 @@ int Collection::getAvailableCopiesCount()
         }
     }
     return copiesCount;
+}
+
+string Collection::getCopiesString()
+{
+    string copiesString = "";
+    for (int i = 0; i < copies.size(); i++)
+    {
+        copiesString += copies[i].toString() + "Title: " + getCopyTitle(copies[i].getID()) + "\n";
+        copiesString += "Author: " + getBook(copies[i].getISBN())->getAuthor() + "\n";
+        copiesString += "Availability: ";
+        if (copies[i].getAvailability())
+        {
+            cout << "\nINSTOCK" << endl;
+            copiesString += "In stock.\n";
+        }
+        else
+        {
+            if (getUser(copies[i].getLastUserID()) != nullptr)
+            {
+                copiesString += "Out with " + getUser(copies[i].getLastUserID())->getName() + "\n";
+            }
+            else
+            {
+                copiesString += "Out with somebody not in database... Make sure the User ID is correct (" + to_string(copies[i].getLastUserID()) + ")\n";
+            }
+        }
+    }
+    copiesString.push_back('\0');
+    return copiesString;
+}
+
+string Collection::getCopyTitle(int copyID)
+{
+    string copyTitle = "!!ERROR!! Copy not found in library! Make sure the copy ID is correct!";
+    if (this->getCopy(copyID) != nullptr)
+    {
+        copyTitle = getBook(getCopy(copyID)->getISBN())->getTitle();
+    }
+    return copyTitle;
+}
+string Collection::getBasicUsersString()
+{
+    string usersString = "";
+    for (int i = 0; i < users.size(); i++)
+    {
+        usersString += "Name: " + users[i].getName() + "\nID: " + to_string(users[i].getId()) + "\n\n";
+    }
+    return usersString;
+}
+
+int Collection::getMaxUserID()
+{
+    return users.back().getId();
+}
+
+void Collection::checkOutCopy(int copyID, int userID)
+{
+    Copy *copy = getCopy(copyID);
+    User *user = getUser(userID);
+    copy->setLastUserID(userID);
+    copy->setAvailability(false);
+    user->checkOutCopy(copyID);
 }

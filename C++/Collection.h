@@ -48,6 +48,11 @@ public:
     Book *getBook(long long id);
     Copy *getCopy(int id);
     string getBooksString();
+    string getCopiesString();
+    string getBasicUsersString();
+    string getCopyTitle(int copyID);
     int getAvailableCopiesCount();
+    int getMaxUserID();
+    void checkOutCopy(int copyID, int userID);
 };
 #endif

@@ -14,7 +14,7 @@ private:
     int lastUserID;
 
 public:
-    Copy(int copyID, long long ISBN, bool availability, int lastUserID) : copyID(copyID), ISBN(ISBN), availability(availability) {}
+    Copy(int copyID, long long ISBN, bool availability, int lastUserID) : copyID(copyID), ISBN(ISBN), availability(availability), lastUserID(lastUserID) {}
     int getID();
     long long getISBN();
 
@@ -22,8 +22,6 @@ public:
 
     void setAvailability(bool avail);
     void setLastUserID(int id);
-
-    void checkOut();
 
     int getLastUserID();
     string toString();
