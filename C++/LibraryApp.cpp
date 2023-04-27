@@ -54,7 +54,7 @@ int main()
     Collection *library;
 
     cout << "Welcome to the library!" << endl;
-    cout << "Read collection from a file? (y/n)\n>" << endl;
+    cout << "Read collection from a file? (y/n)\n> ";
     // CWE-125: Out-of-bounds Read - choice only accepted when a value is entered, does not accept empty string.
     choice = validateInput(regex("^(yes|no|y|n)$"), "Invalid input. Please enter yes, no, y, or n.");
     choiceChar = tolower(choice.at(0));
@@ -123,7 +123,7 @@ void collectionActionPrompt(Collection *library)
         cout << "Enter choice: ";
 
         // this regex also ensures that the integer overflow does not occur.
-        choice = stoi(validateInput(regex("^\\d+\\d*"), "Invalid input."));
+        choice = stoi(validateInput(regex("^\\d\\d{0,3}"), "Invalid input."));
 
         switch (choice)
         {
@@ -171,7 +171,7 @@ void addBook(Collection *library)
     long long isbn;
     int publishedYear;
     string author, genre, shortDesc, publisher, binding;
-    const char *titleBuf = new char[STRING_BUFFER_SIZE];
+    string titleBuf = new char[STRING_BUFFER_SIZE];
 
     // Get book information from user
     cout << "Enter ISBN: ";
@@ -354,6 +354,7 @@ string validateInput(regex reg, string errorMessage)
         cout << errorMessage;
         cout << " Please try again." << endl;
         cout << "> ";
+        input = "";
         getline(cin, input);
     }
     return input;
