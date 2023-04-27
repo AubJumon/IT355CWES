@@ -44,9 +44,14 @@ void Collection::addBook(long long ISBN, string title, string author, string gen
     books.push_back(Book(ISBN, title, author, genre, shortDesc, publishedYear, publisher, binding));
 }
 
-void Collection::addUser(int id, string name)
+void Collection::addCopy(long long ISBN)
 {
-    users.push_back(User(id, name));
+    copies.push_back(Copy(getMaxCopyID() + 1, ISBN, true, -1));
+}
+
+void Collection::addUser(string name)
+{
+    users.push_back(User(getMaxUserID() + 1, name));
 }
 
 User *Collection::getUser(int id)
@@ -176,6 +181,11 @@ string Collection::getBasicUsersString()
 int Collection::getMaxUserID()
 {
     return users.back().getId();
+}
+
+int Collection::getMaxCopyID()
+{
+    return copies.back().getID();
 }
 
 void Collection::checkOutCopy(int copyID, int userID)

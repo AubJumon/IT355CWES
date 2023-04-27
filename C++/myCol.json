@@ -1,0 +1,163 @@
+{
+    "collectionID": 123,
+    "name": "My Collection",
+    "users": [
+        {
+            "id": 1,
+            "name": "Austen Tankersley",
+            "checkedOutCopies": [
+                1
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Braydon Hughes",
+            "checkedOutCopies": [
+                2
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Ally Dauck",
+            "checkedOutCopies": [
+                6
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Aubrey Jumonville",
+            "checkedOutCopies": []
+        },
+        {
+            "id": 5,
+            "name": "Grant Lane",
+            "checkedOutCopies": []
+        },
+        {
+            "id": 6,
+            "name": "Jason Kress",
+            "checkedOutCopies": []
+        },
+        {
+            "id": 7,
+            "name": "Rishi Saripalle",
+            "checkedOutCopies": []
+        }
+    ],
+    "copies": [
+        {
+            "copyID": 1,
+            "ISBN": 9781984898951,
+            "availability": false,
+            "lastUserID": 1
+        },
+        {
+            "copyID": 2,
+            "ISBN": 9780441172719,
+            "availability": false,
+            "lastUserID": 2
+        },
+        {
+            "copyID": 3,
+            "ISBN": 9780743269510,
+            "availability": true,
+            "lastUserID": -1
+        },
+        {
+            "copyID": 4,
+            "ISBN": 9780521618748,
+            "availability": true,
+            "lastUserID": -1
+        },
+        {
+            "copyID": 5,
+            "ISBN": 9780385543781,
+            "availability": true,
+            "lastUserID": -1
+        },
+        {
+            "copyID": 6,
+            "ISBN": 9780544003415,
+            "availability": false,
+            "lastUserID": 3
+        },
+        {
+            "copyID": 7,
+            "ISBN": 9780307743664,
+            "availability": true,
+            "lastUserID": -1
+        }
+    ],
+    "books": [
+        {
+            "ISBN": 9781984898951,
+            "title": "Crying in H Mart: A Memoir",
+            "author": "Michelle Zauner",
+            "genre": "Autobiography",
+            "shortDesc": "A memoir by Michelle Zauner, singer and guitarist of the musical project Japanese Breakfast.",
+            "publishedYear": 2023,
+            "publisher": "Vintage",
+            "binding": "Paperback"
+        },
+        {
+            "ISBN": 9780307743664,
+            "title": "Carrie",
+            "author": "Stephen King",
+            "genre": "Horror",
+            "shortDesc": "A novel about a teenage girl with telekinetic powers",
+            "publishedYear": 1974,
+            "publisher": "Anchor",
+            "binding": "Paperback"
+        },
+        {
+            "ISBN": 9780441172719,
+            "title": "Dune",
+            "author": "Frank Herbert",
+            "genre": "Science Fiction",
+            "shortDesc": "A sweeping epic set on a desert planet",
+            "publishedYear": 1965,
+            "publisher": "Chilton Books",
+            "binding": "Hardcover"
+        },
+        {
+            "ISBN": 9780521618748,
+            "title": "Macbeth",
+            "author": "William Shakespeare",
+            "genre": "Tragedy",
+            "shortDesc": "A play about ambition, power, and betrayal",
+            "publishedYear": 1606,
+            "publisher": "Cambridge University Press",
+            "binding": "Paperback"
+        },
+        {
+            "ISBN": 9780385543781,
+            "title": "The Testaments",
+            "author": "Margaret Atwood",
+            "genre": "Dystopian Fiction",
+            "shortDesc": "The long-awaited sequel to Margaret Atwood's classic novel, The Handmaid's Tale.",
+            "publishedYear": 2019,
+            "publisher": "Nan A. Talese",
+            "binding": "Hardcover"
+        },
+        {
+            "ISBN": 9780544003415,
+            "title": "The Lord of the Rings",
+            "author": "J.R.R. Tolkien",
+            "genre": "High Fantasy",
+            "shortDesc": "A trilogy consisting of The Fellowship of the Ring, The Two Towers, and The Return of the King, following the journey of a hobbit named Frodo Baggins to destroy the One Ring and save Middle-earth.",
+            "publishedYear": 1954,
+            "publisher": "Houghton Mifflin Harcourt",
+            "binding": "Hardcover"
+        },
+        {
+            "ISBN": 9780743269510,
+            "title": "The Picture of Dorian Gray",
+            "author": "Oscar Wilde",
+            "genre": "Gothic Fiction",
+            "shortDesc": "A novel about a young man who sells his soul for eternal youth and beauty",
+            "publishedYear": 1890,
+            "publisher": "Penguin Classics",
+            "binding": "Paperback"
+        }
+    ]
+}
