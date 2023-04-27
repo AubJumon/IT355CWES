@@ -37,8 +37,8 @@ public:
     int getID();
     void addBook(long long ISBN, string title, string author, string genre, string shortDesc, int publishedYear, string publisher, string binding);
 
-    void addUser(int id, string name);
-    void addCopy();
+    void addUser(string name);
+    void addCopy(long long ISBN);
     /**
      * Finds a user in the Collection's list of users.
      * @param id id of the user to search for.
@@ -53,6 +53,7 @@ public:
     string getCopyTitle(int copyID);
     int getAvailableCopiesCount();
     int getMaxUserID();
+    int getMaxCopyID();
     void checkOutCopy(int copyID, int userID);
 };
 #endif
